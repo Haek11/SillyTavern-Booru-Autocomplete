@@ -7,7 +7,8 @@
     margin: 2px 0 0;
     border: 1px solid var(--SmartThemeBorderColor, #555);
     border-radius: 6px;
-    background: var(--SmartThemeBlurTintColor, #1e1e1e);
+    /* theme tint layered over a solid base, so nothing behind the list shows through */
+    background: linear-gradient(var(--SmartThemeBlurTintColor, #1e1e1e), var(--SmartThemeBlurTintColor, #1e1e1e)), #1b1b1b;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
     font-size: 0.9em;
     text-align: left;
@@ -21,7 +22,8 @@
     text-transform: uppercase;
     opacity: 0.75;
     border-bottom: 1px solid var(--SmartThemeBorderColor, #555);
-    background: var(--SmartThemeBlurTintColor, #1e1e1e);
+    /* theme tint layered over a solid base, so nothing behind the list shows through */
+    background: linear-gradient(var(--SmartThemeBlurTintColor, #1e1e1e), var(--SmartThemeBlurTintColor, #1e1e1e)), #1b1b1b;
     position: sticky;
     top: 0;
     z-index: 1;
