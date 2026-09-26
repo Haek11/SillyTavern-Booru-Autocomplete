@@ -314,6 +314,19 @@ function formatCount(n) {
     return String(n);
 }
 
+/** Position the dropdown as a floating overlay anchored to the textarea, instead of living
+ *  in the popup's normal document flow. This is what stops the popup from jumping around as
+ *  the number of matches (and therefore the dropdown's height) changes on every keystroke. */
+function positionDropdown() {
+    if (!dropdown || !activeField) return;
+    const rect = activeField.getBoundingClientRect();
+    const available = window.innerHeight - rect.bottom - 8;
+    dropdown.style.left = rect.left + 'px';
+    dropdown.style.top = (rect.bottom + 2) + 'px';
+    dropdown.style.width = rect.width + 'px';
+    dropdown.style.maxHeight = Math.max(120, Math.min(260, available)) + 'px';
+}
+
 function render(resetScroll = false) {
     if (!dropdown) {
         dropdown = document.createElement('div');
@@ -323,10 +336,7 @@ function render(resetScroll = false) {
             const row = e.target.closest('.tac-item');
             if (row) { selected = Number(row.dataset.i); accept(); }
         });
-    }
-    // Place right under the textarea (inside the same popup so it isn't hidden behind the modal)
-    if (dropdown.previousElementSibling !== activeField) {
-        activeField.insertAdjacentElement('afterend', dropdown);
+        document.body.appendChild(dropdown);
     }
     dropdown.innerHTML = '';
 
@@ -357,6 +367,7 @@ function render(resetScroll = false) {
         dropdown.appendChild(row);
     });
     dropdown.style.display = 'block';
+    positionDropdown();
     if (resetScroll) dropdown.scrollTop = 0;
     keepSelectedVisible();
 }
@@ -525,6 +536,9 @@ function addSettingsUi() {
 }
 
 // ---------- init ----------
+
+window.addEventListener('scroll', () => { if (isOpen()) positionDropdown(); }, true);
+window.addEventListener('resize', () => { if (isOpen()) positionDropdown(); });
 
 jQuery(async () => {
     settings();
