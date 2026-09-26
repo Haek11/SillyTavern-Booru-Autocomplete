@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.2
+
+**Fixes**
+
+- Picking a suggestion while typing between two tags no longer overwrites the tag after your cursor. Clicking an existing tag and picking a suggestion still replaces that whole tag, like before.
+- Picking a suggestion right after a comma now adds the missing space, and no longer leaves a double space before the next tag.
+
 ## 1.1.1
 
 **Fixes**
