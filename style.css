@@ -1,14 +1,16 @@
 .tac-dropdown {
     display: none;
+    position: fixed;
+    z-index: 99999;
     max-height: 260px;
     overflow-y: auto;
-    margin: 2px 0 6px;
+    margin: 2px 0 0;
     border: 1px solid var(--SmartThemeBorderColor, #555);
     border-radius: 6px;
     background: var(--SmartThemeBlurTintColor, #1e1e1e);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
     font-size: 0.9em;
     text-align: left;
-    position: relative;
 }
 
 .tac-header {
