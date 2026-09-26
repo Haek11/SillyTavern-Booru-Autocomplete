@@ -1,0 +1,11 @@
+# Custom snippets. One per line:  trigger | text to insert
+# Type the trigger in a prompt box and pick it from the list (shown in gold, above Danbooru tags).
+# Lines starting with # are ignored.
+#
+# To use your own: copy this file to custom_tags.txt (same folder), edit it, reload SillyTavern.
+# custom_tags.txt is ignored by git, so extension updates never overwrite it.
+#
+# Examples - a recurring character, a LoRA + trigger word, a scene helper:
+mychar | 1girl, long hair, silver hair, red eyes, black coat
+mylora | <lora:your_lora_file:0.7>, your_trigger_word
+crowd | crowd, blurry background

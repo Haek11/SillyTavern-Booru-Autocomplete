@@ -1,0 +1,57 @@
+.tac-dropdown {
+    display: none;
+    max-height: 260px;
+    overflow-y: auto;
+    margin: 2px 0 6px;
+    border: 1px solid var(--SmartThemeBorderColor, #555);
+    border-radius: 6px;
+    background: var(--SmartThemeBlurTintColor, #1e1e1e);
+    font-size: 0.9em;
+    text-align: left;
+    position: relative;
+}
+
+.tac-header {
+    padding: 4px 8px;
+    font-size: 0.85em;
+    font-weight: bold;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    border-bottom: 1px solid var(--SmartThemeBorderColor, #555);
+    background: var(--SmartThemeBlurTintColor, #1e1e1e);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.tac-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 3px 8px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.tac-item:hover,
+.tac-item.tac-selected {
+    background: var(--SmartThemeQuoteColor, #3a5f8a);
+    color: #fff;
+}
+
+.tac-name { overflow: hidden; text-overflow: ellipsis; }
+.tac-meta { opacity: 0.6; overflow: hidden; text-overflow: ellipsis; max-width: 55%; }
+
+/* Danbooru category colors (same idea as the ComfyUI add-on) */
+.tac-general   .tac-name { color: #6cb4ee; }
+.tac-copyright .tac-name { color: #c77dff; }
+.tac-character .tac-name { color: #5fd07a; }
+.tac-artist    .tac-name { color: #ee6c6c; }
+.tac-metatag   .tac-name { color: #f0a050; }
+.tac-custom    .tac-name { color: #f2c94c; font-weight: bold; }
+
+.tac-selected .tac-name { color: #fff; }
+
+/* already in the prompt */
+.tac-used { opacity: 0.45; }

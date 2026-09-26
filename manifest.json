@@ -1,0 +1,12 @@
+{
+    "display_name": "Tag Autocomplete (Image Prompts)",
+    "loading_order": 100,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "PQ_",
+    "version": "1.1.0",
+    "homePage": "https://github.com/Haek11/ST-Tag-Autocomplete",
+    "auto_update": true
+}
