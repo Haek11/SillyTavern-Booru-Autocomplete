@@ -321,10 +321,21 @@ function positionDropdown() {
     if (!dropdown || !activeField) return;
     const rect = activeField.getBoundingClientRect();
     const available = window.innerHeight - rect.bottom - 8;
-    dropdown.style.left = rect.left + 'px';
-    dropdown.style.top = (rect.bottom + 2) + 'px';
+    const wantLeft = rect.left;
+    const wantTop = rect.bottom + 2;
     dropdown.style.width = rect.width + 'px';
     dropdown.style.maxHeight = Math.max(120, Math.min(260, available)) + 'px';
+    dropdown.style.left = wantLeft + 'px';
+    dropdown.style.top = wantTop + 'px';
+    // If a parent (e.g. the popup dialog) has a transform, "fixed" is relative to it, not the
+    // viewport. Measure where we actually landed and correct by the difference.
+    const got = dropdown.getBoundingClientRect();
+    const dx = got.left - wantLeft;
+    const dy = got.top - wantTop;
+    if (dx || dy) {
+        dropdown.style.left = (wantLeft - dx) + 'px';
+        dropdown.style.top = (wantTop - dy) + 'px';
+    }
 }
 
 function render(resetScroll = false) {
@@ -336,8 +347,12 @@ function render(resetScroll = false) {
             const row = e.target.closest('.tac-item');
             if (row) { selected = Number(row.dataset.i); accept(); }
         });
-        document.body.appendChild(dropdown);
     }
+    // SillyTavern popups are native <dialog>s opened with showModal(), which puts them in the
+    // browser's "top layer" above everything else (and blurs the rest of the page). The dropdown
+    // has to live inside that same dialog, or it ends up underneath the blur.
+    const host = activeField.closest('dialog') || document.body;
+    if (dropdown.parentElement !== host) host.appendChild(dropdown);
     dropdown.innerHTML = '';
 
     if (mode === 'related') {
