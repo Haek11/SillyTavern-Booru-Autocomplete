@@ -214,17 +214,22 @@ function isTargetField(el) {
     return s.settingsFields && SETTINGS_FIELD_IDS.includes(el.id);
 }
 
-/** Find the tag currently being typed/clicked at the caret */
-function currentToken(el) {
+/** Find the tag currently being typed/clicked at the caret.
+ *  extend=true (click) also covers the rest of the tag after the caret, so picking a
+ *  suggestion replaces the whole clicked tag. While typing we never reach past the caret,
+ *  so a neighbouring tag is never overwritten. */
+function currentToken(el, extend = false) {
     const value = el.value;
     const caret = el.selectionStart;
     if (caret !== el.selectionEnd) return null;
     let start = Math.max(value.lastIndexOf(',', caret - 1), value.lastIndexOf('\n', caret - 1)) + 1;
     let end = caret;
-    // extend to the end of the current tag (if editing/clicking in the middle of one)
-    while (end < value.length && value[end] !== ',' && value[end] !== '\n') end++;
-    // trim trailing spaces of the replace range
-    while (end > caret && value[end - 1] === ' ') end--;
+    if (extend) {
+        // extend to the end of the clicked tag
+        while (end < value.length && value[end] !== ',' && value[end] !== '\n') end++;
+        // trim trailing spaces of the replace range
+        while (end > caret && value[end - 1] === ' ') end--;
+    }
 
     let token = value.slice(start, caret);
     const lead = token.length - token.replace(/^[\s(]+/, '').length;
@@ -256,9 +261,9 @@ function existingTags(el) {
     return new Set(el.value.split(/[,\n]/).map(t => normalize(t.trim().replace(/^\(+|\)+$/g, '').replace(/:[\d.]+$/, ''))).filter(Boolean));
 }
 
-function update(el) {
+function update(el, extend = false) {
     if (!loaded) return hide();
-    const tok = currentToken(el);
+    const tok = currentToken(el, extend);
     if (!tok) return hide();
     const query = normalize(tok.token);
     const found = search(query, existingTags(el));
@@ -287,7 +292,7 @@ function handleClick(el) {
             }
         }
     }
-    update(el);
+    update(el, true);
 }
 
 function showRelated(el, tagName, span) {
@@ -434,7 +439,10 @@ function accept() {
     const text = it.insert ?? displayTag(it.tag);
     const after = el.value.slice(range.end);
     const needsSep = !/^\s*,/.test(after);
-    const insertText = text + (needsSep ? ', ' : '');
+    // typed straight after a comma ("5,|") -> keep a space before the new tag
+    const needsLead = range.start > 0 && el.value[range.start - 1] === ',';
+    const sep = needsSep ? (/^\s/.test(after) ? ',' : ', ') : '';
+    const insertText = (needsLead ? ' ' : '') + text + sep;
 
     el.focus();
     el.setSelectionRange(range.start, range.end);
