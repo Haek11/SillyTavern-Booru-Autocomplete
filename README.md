@@ -20,9 +20,9 @@ Built for SDXL / Illustrious / NoobAI-style models that understand Danbooru tags
 ## Install
 
 1. SillyTavern → **Extensions** → **Install extension** → paste:
-   `https://github.com/Haek11/ST-Tag-Autocomplete`
+   `https://github.com/Haek11/SillyTavern-Booru-Autocomplete`
 2. **For related tags:** download `related_tags.csv` from the
-   [latest Release](https://github.com/Haek11/ST-Tag-Autocomplete/releases/latest)
+   [latest Release](https://github.com/Haek11/SillyTavern-Booru-Autocomplete/releases/latest)
    and put it in the extension's folder:
    `SillyTavern/public/scripts/extensions/third-party/ST-Tag-Autocomplete/`
    (Without it, everything else still works – clicking a tag just won't show related tags.)
